@@ -16,7 +16,9 @@
   - [$Javascript 部分](#Javascript部分)
     - [严格模式和正常模式](#严格模式和正常模式)
     - [Scope作用范围](#Scope作用范围)
-    - A
+    - [函数内，var a=b=5;b为什么会是全局变量？](#函数内,vara-b-5;b为什么会是全局变量?)
+    - [基本数据类型和引用类型](#基本数据类型和引用类型)
+    - [`const`,`var`,`let`区别](#const,var,let区别)
     - A
     - A
     - A
@@ -77,34 +79,7 @@
 ## Javascript部分
 
 ### 严格模式和正常模式
-1. 概述
 　　除了正常运行模式，ECMAscript 5添加了第二种运行模式："严格模式"（strict mode）。顾名思义，这种模式使得Javascript在更严格的条件下运行。
-
-2. 为什么用严格模式
-- 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;
-- 消除代码运行的一些不安全之处，保证代码运行的安全；
-- 提高编译器效率，增加运行速度；
-- 为未来新版本的Javascript做好铺垫。
-　　"严格模式"体现了Javascript更合理、更安全、更严谨的发展方向，包括IE 10在内的主流浏览器，都已经支持它，许多大项目已经开始全面拥抱它。
-　　另一方面，同样的代码，在"严格模式"中，可能会有不一样的运行结果；一些在"正常模式"下可以运行的语句，在"严格模式"下将不能运行。掌握这些内容，有助于更细致深入地理解Javascript，让你变成一个更好的程序员。
-
-3. 进入标志
-
-
-    "use strict";
-
-4. 如何调用
-
-- 4.1针对单个脚本
-
-
-    <script>
-      "use strict";
-      console.log("这是严格模式。");
-    </script>
-
-- 4.2针对单个函数
-
 
     function strict(){
       "use strict";
@@ -114,76 +89,53 @@
       return "这是正常模式。";
     }
 
-  5.语法与行为改变
-
-  严格模式对Javascript的语法和行为，都做了一些改变。
-
-  5.1 全局变量显式声明
-
-  在正常模式中，如果一个变量没有声明就赋值，默认是全局变量。严格模式禁止这种用法，全局变量必须显式声明。
-
-    "use strict";
-    v=1;  // 报错，v未声明
-    for(i = 0; i < 2; i++) {
-      console.log(i);  // 报错，i未声明
-    }
-
-  因此，严格模式下，变量都必须先用var命令声明，然后再使用。
-
-
-  5.2 禁止this关键字指向全局对象
-    function f(){
-      return !this;
-    }
-    // 返回false，因为"this"指向全局对象，"!this"就是false
-    function f(){
-      "use strict";
-      return !this;
-    }
-    //返回true，因为严格模式下，this的值为undefined，所以"!this"为true。
-  因此，使用构造函数时，如果忘了加new，this不再指向全局对象，而是报错。
-
-    function f(){
-      "use strict";
-      this.a = 1;
-    };
-    f();// 报错，this未定义
-
-
-  5.3禁止删除变量
-
-  严格模式下无法删除变量。只有configurable设置为true的对象属性，才能被删除。
-    "use strict";
-    var x;
-    delete x; // 语法错误
-    var o = Object.create(null, {'x': {
-      value: 1,
-      configurable: true
-    }});
-    delete o.x; // 删除成功
-
-  5.4对象不能有重名的属性
-
-  正常模式下，如果对象有多个重名属性，最后赋值的那个属性会覆盖前面的值。严格模式下，这属于语法错误。
-
-    "use strict";
-    var o = {
-      p: 1,
-      p: 2
-    }; // 语法错误
-
-  5.5函数不能有重名的参数
-
-  正常模式下，如果函数有多个重名的参数，可以用arguments[i]读取。严格模式下，这属于语法错误。
-
-    "use strict";
-    function f(a, a, b) { // 语法错误
-      return ;
-    }
-
-
-
 ### Scope作用范围
+    var scope="global";
+    (function(){
+      console.log(scope);  //undefined
+      var scope="local";
+      console.log(scope);  //local
+    })();
+　　第二次定义的"scope"，作用域提升为全局作用域，全局作用域在未定义前调用，所以第一次输出会报错。
+　　script标签下的变量是全局变量即属于window对象的变量，按照作用域链的原理，当一个变量在当前作用域下找不到该变量的定义，那么就会沿着作用域链往上找直到在全局作用域里查找。
 
+### 函数内，var a=b=5;b为什么会是全局变量？
+
+    (function () {
+      var a=b=5;
+    })();
+    console.log(a);  //undefined
+    console.log(b);  //5
+　　此处赋值给a“b=1”，a是不存在的；var a=b=1，等价于b=1; var a=b;。
+　　b=5;是全局变量，var a=b;是局部变量所以a在外部是访问不到的
+　　所以顺序执行时，a先执行会报错不存在，b先执行则会正常打印
+
+### 基本数据类型和引用类型
+　　基本类型是指：Undefined、Null、Boolean、Number和String，基本类型值就是简单的数据段；
+　　引用类型：Object(对象)、Array(数组)、function(函数)。 
+　　引用类型是指多个指构成的对象，JS中对象指的是引用类型，引用类型值可能由多个值构成的对象。
+
+### `const`,`var`,`let`区别
+
+
+### 
+
+
+### 
+
+
+### 
+
+
+### 
+
+
+### 
+
+
+### 
+
+
+### 
 
 

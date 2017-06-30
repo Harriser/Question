@@ -14,9 +14,9 @@
   - [$Javascript 部分](#Javascript部分)
     - [严格模式和正常模式](#严格模式和正常模式)
     - [Scope作用范围](#Scope作用范围)
-    - [函数内,`var a=b=5;`b为什么会是全局变量](#函数内,var-a-b-5-b为什么会是全局变量)
+    - [函数内,`var a=b=5;`b为什么会是全局变量](#函数内var-a-b-5-b为什么会是全局变量)
     - [基本数据类型和引用类型](#基本数据类型和引用类型)
-    - [`const`,`var`,`let`区别](#const,var,let区别)
+    - [`const`,`var`,`let`区别](#constvarlet区别)
     - A
     - A
     - A

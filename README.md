@@ -79,7 +79,7 @@
 
 ### 严格模式和正常模式
 　　除了正常运行模式，ECMAscript 5添加了第二种运行模式："严格模式"（strict mode）。顾名思义，这种模式使得Javascript在更严格的条件下运行。
-
+```
     function strict(){
       "use strict";
       return "这是严格模式。";
@@ -87,24 +87,31 @@
     function notStrict() {
       return "这是正常模式。";
     }
+```
+
 
 ### Scope作用范围
+```
     var scope="global";
     (function(){
       console.log(scope);  //undefined
       var scope="local";
       console.log(scope);  //local
     })();
+```
+
 　　第二次定义的"scope"，作用域提升为全局作用域，全局作用域在未定义前调用，所以第一次输出会报错。
 　　script标签下的变量是全局变量即属于window对象的变量，按照作用域链的原理，当一个变量在当前作用域下找不到该变量的定义，那么就会沿着作用域链往上找直到在全局作用域里查找。
 
 ### 函数内,`var a=b=5;`,b为什么会是全局变量
-
+```
     (function () {
       var a=b=5;
     })();
     console.log(a);  //undefined
     console.log(b);  //5
+```
+
 　　此处赋值给a“b=1”，a是不存在的；var a=b=1，等价于b=1; var a=b;。
 　　b=5;是全局变量，var a=b;是局部变量所以a在外部是访问不到的
 　　所以顺序执行时，a先执行会报错不存在，b先执行则会正常打印
@@ -116,17 +123,16 @@
 
 ### `const`,`var`,`let`区别
 - 1.const定义的变量不可以修改，而且必须初始化。
-
-
+```
     const b=2;  //正确
     //const b;  //错误，必须初始化 
     console.log('函数外const定义b:'+b);  //有输出值
     //b=5;
     //console.log('函数外修改const定义b:'+b);  //无法输出 
+```
 
 - 2.var定义的变量可以修改，如果不初始化会输出undefined，不会报错。
-
-
+```
     var a = 1;
     //var a;  //不会报错
     console.log('函数外var定义a：' + a);  //可以输出a=1
@@ -136,10 +142,10 @@
     } 
     change();
     console.log('函数调用后var定义a为函数内部修改值：' + a);//可以输出a=4
+```
 
 - 3.let是块级作用域，函数内部使用let定义后，对函数外部无影响。
-
-
+```
     let c = 3;
     console.log('函数外let定义c：' + c);  //输出c=3
     function change(){
@@ -148,6 +154,9 @@
     } 
     change();
     console.log('函数调用后let定义c不受函数内部定义影响：' + c);  //输出c=3
+```
+
+
 
 
 ### 
